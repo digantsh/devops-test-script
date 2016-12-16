@@ -12,12 +12,6 @@ All tests pass!
 
 ## Long Version
 
-### Starting Your Docker Container
-This should be all that is needed to start your container:
-```bash
-$ docker-compose up
-```
-
 ### Script Requirements
 
 This test script uses [the python requests library](http://docs.python-requests.org/). If you don't already have it, you'll need to install it using [pip](https://pip.pypa.io/en/stable/):
@@ -63,3 +57,15 @@ $ curl \
 Note that without the `cacert` flag you will get an `Invalid certificate chain` error.
 
 You can also use `$ wget --ca-certificate=localhost.crt https://localhost:5000/messages/...`.
+
+### Starting Your Docker Container
+This should be all that is needed to start your container:
+```bash
+$ docker-compose up
+```
+
+### Running Your Tests
+While your container is up, run this test suite:
+```bash
+$ python /path/to/test.py --domain localhost --port 5000 --cert-path /path/to/localhost.crt
+```
