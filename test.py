@@ -36,7 +36,7 @@ def post_message(base_url, cert_path, message, expected_digest=None):
     returned_digest = resp_json['digest']
     if expected_digest:
         assert returned_digest == expected_digest, r.text
-    print('{} posted'.format(url))
+    print('{} POSTed successfully'.format(url))
     return returned_digest
 
 
