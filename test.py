@@ -1,18 +1,15 @@
 #!/usr/bin/env python
 
 import argparse
-import logging
 import os
 import requests
-
-logger = logging.getLogger(__name__)
 
 
 def _assert_digest_not_found(base_url, cert_path, digest):
     url = '{}/messages/{}'.format(base_url, digest)
     r = requests.get(url=url, verify=cert_path)
     assert r.status_code == 404, r.text
-    logger.info('{} correctly not found'.format(url))
+    print('{} correctly not found'.format(url))
 
 
 def _assert_digest_found(base_url, cert_path, digest, expected_message):
@@ -22,7 +19,7 @@ def _assert_digest_found(base_url, cert_path, digest, expected_message):
     resp_json = r.json()
     assert 'message' in resp_json, 'message not in json: {}'.format(resp_json)
     assert resp_json['message'] == expected_message, r.text
-    logger.info('{} correctly found'.format(url))
+    print('{} correctly found'.format(url))
 
 
 def post_message(base_url, cert_path, message, expected_digest=None):
@@ -34,7 +31,7 @@ def post_message(base_url, cert_path, message, expected_digest=None):
     returned_digest = resp_json['digest']
     if expected_digest:
         assert returned_digest == expected_digest, r.text
-    logger.info('{} posted'.format(url))
+    print('{} posted'.format(url))
     return returned_digest
 
 
@@ -62,21 +59,7 @@ if __name__ == '__main__':
         help='Path to self signed certificate (defaults to localhost.crt)',
         required=False,
     )
-    parser.add_argument(
-        '-v', '--verbose',
-        default=False,
-        action='store_true',
-        help='Run script in verbose mode (default is quiet mode)',
-    )
     args = parser.parse_args()
-
-    log_format = '<%(asctime)s>[%(levelname)8s]%(name)12s, %(funcName)22s: %(message)s'  # noqa
-    logging.basicConfig(
-        level=logging.ERROR,
-        format=log_format,
-    )
-    if args.verbose:
-        logger.setLevel(logging.INFO)
 
     if not os.path.exists(args.cert_path):
         raise Exception('No Certificate File Found at {}'.format(args.cert_path))
