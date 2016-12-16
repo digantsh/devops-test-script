@@ -4,6 +4,11 @@ import argparse
 import os
 import requests
 
+# Disable urllib3 warnings:
+# https://github.com/shazow/urllib3/issues/497
+import requests.packages.urllib3
+requests.packages.urllib3.disable_warnings()
+
 
 def _assert_digest_not_found(base_url, cert_path, digest):
     url = '{}/messages/{}'.format(base_url, digest)
