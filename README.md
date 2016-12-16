@@ -6,9 +6,9 @@
 This is how we will test your code:
 ```bash
 $ docker-compose up -d && python /path/to/test.py --domain localhost --port 5000 --cert-path /path/to/localhost.crt
-```
 ...
 All tests pass!
+```
 
 ## Long Version
 
@@ -32,11 +32,11 @@ This script simulates API calls to your service like the following:
 You can run these SSL enabled curl calls to see it works (in this case we're using port 5000):
 ```bash
 $ curl \
--X POST \
--H "Content-Type: application/json" \
--d '{"message":"foo"}' \
---cacert localhost.crt \
-https://localhost:5000/messages
+  -X POST \
+  -H "Content-Type: application/json" \
+  -d '{"message":"foo"}' \
+  --cacert localhost.crt \
+  https://localhost:5000/messages
 {
   "digest": "2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae"
 }
@@ -44,8 +44,8 @@ https://localhost:5000/messages
 
 ```bash
 $ curl \
---cacert localhost.crt \
-https://localhost:5000/messages/2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae
+  --cacert localhost.crt \
+  https://localhost:5000/messages/2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae
 {
   "message": "foo"
 }
@@ -53,8 +53,8 @@ https://localhost:5000/messages/2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0
 
 ```bash
 $ curl \
---cacert localhost.crt \
-https://localhost:5000/messages/aaaaaaaaaaaaaaaaaaa
+  --cacert localhost.crt \
+  https://localhost:5000/messages/aaaaaaaaaaaaaaaaaaa
 {
   "err_msg": "Message not found"
 }
@@ -62,4 +62,4 @@ https://localhost:5000/messages/aaaaaaaaaaaaaaaaaaa
 
 Note that without the `cacert` flag you will get an `Invalid certificate chain` error.
 
-You can also use `$ wget --ca-certificate=localhost.crt https://localhost:5000/messages/...` if you prefer.
+You can also use `$ wget --ca-certificate=localhost.crt https://localhost:5000/messages/...`.
